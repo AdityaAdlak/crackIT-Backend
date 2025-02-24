@@ -2160,7 +2160,249 @@ export const mediumSet5 = [
         "typeOfQuestion": "theoretical",
         "subject": "Computer Networks",
         "difficultyLevel": "medium"
-      }
+      },
+      
+        {
+          "questionTitle": "Write a function to find the lowest common ancestor of two nodes in a binary search tree (BST).",
+          "example": {
+            "input": { "root": [6, 2, 8, 0, 4, 7, 9, null, null, 3, 5], "p": 2, "q": 8 },
+            "output": 6
+          },
+          "testCase": [
+            { "input": { "root": [6, 2, 8, 0, 4, 7, 9, null, null, 3, 5], "p": 2, "q": 4 }, "expectedOutput": 2 },
+            { "input": { "root": [3, 1, 5, 0, 2, 4, 6], "p": 4, "q": 6 }, "expectedOutput": 5 },
+            { "input": { "root": [10, 5, 15, 2, 7, 12, 18], "p": 2, "q": 18 }, "expectedOutput": 10 }
+          ],
+          "typeOfQuestion": "coding",
+          "subject": "Trees",
+          "difficultyLevel": "medium"
+        },
+        {
+          "questionTitle": "Implement a function to detect a cycle in a directed graph using DFS.",
+          "example": {
+            "input": { "vertices": 4, "edges": [[0, 1], [1, 2], [2, 3], [3, 1]] },
+            "output": true
+          },
+          "testCase": [
+            { "input": { "vertices": 3, "edges": [[0, 1], [1, 2]] }, "expectedOutput": false },
+            { "input": { "vertices": 4, "edges": [[0, 1], [1, 2], [2, 0]] }, "expectedOutput": true },
+            { "input": { "vertices": 5, "edges": [[0, 1], [1, 2], [2, 3], [3, 4]] }, "expectedOutput": false }
+          ],
+          "typeOfQuestion": "coding",
+          "subject": "Graph Theory",
+          "difficultyLevel": "medium"
+        },
+        {
+          "questionTitle": "Write a function to check if two strings are anagrams of each other.",
+          "example": {
+            "input": { "s": "listen", "t": "silent" },
+            "output": true
+          },
+          "testCase": [
+            { "input": { "s": "rat", "t": "car" }, "expectedOutput": false },
+            { "input": { "s": "anagram", "t": "nagaram" }, "expectedOutput": true },
+            { "input": { "s": "hello", "t": "ollhe" }, "expectedOutput": true }
+          ],
+          "typeOfQuestion": "coding",
+          "subject": "Strings",
+          "difficultyLevel": "medium"
+        },
+        {
+          "questionTitle": "Find the longest increasing subsequence in an array.",
+          "example": {
+            "input": [10, 9, 2, 5, 3, 7, 101, 18],
+            "output": 4
+          },
+          "testCase": [
+            { "input": [1, 3, 5, 4, 7], "expectedOutput": 4 },
+            { "input": [2, 2, 2, 2, 2], "expectedOutput": 1 },
+            { "input": [0, 1, 0, 3, 2, 3], "expectedOutput": 4 }
+          ],
+          "typeOfQuestion": "coding",
+          "subject": "Dynamic Programming",
+          "difficultyLevel": "medium"
+        },
+        {
+          "questionTitle": "Implement a function to perform a topological sort on a directed acyclic graph (DAG).",
+          "example": {
+            "input": { "vertices": 6, "edges": [[5, 2], [5, 0], [4, 0], [4, 1], [2, 3], [3, 1]] },
+            "output": [5, 4, 2, 3, 1, 0]
+          },
+          "testCase": [
+            { "input": { "vertices": 3, "edges": [[0, 1], [1, 2]] }, "expectedOutput": [0, 1, 2] },
+            { "input": { "vertices": 4, "edges": [[1, 2], [3, 2], [2, 0]] }, "expectedOutput": [3, 1, 2, 0] },
+            { "input": { "vertices": 5, "edges": [[0, 2], [2, 3], [3, 4]] }, "expectedOutput": [0, 2, 3, 4] }
+          ],
+          "typeOfQuestion": "coding",
+          "subject": "Graph Theory",
+          "difficultyLevel": "medium"
+        },
+        {
+          "questionTitle": "Write a function to find the kth smallest element in a Binary Search Tree (BST).",
+          "example": {
+            "input": { "root": [3, 1, 4, null, 2], "k": 1 },
+            "output": 1
+          },
+          "testCase": [
+            { "input": { "root": [5, 3, 6, 2, 4, null, null, 1], "k": 3 }, "expectedOutput": 3 },
+            { "input": { "root": [2, 1, 3], "k": 2 }, "expectedOutput": 2 },
+            { "input": { "root": [7, 3, 9, 2, 5, 8, 10], "k": 4 }, "expectedOutput": 5 }
+          ],
+          "typeOfQuestion": "coding",
+          "subject": "Trees",
+          "difficultyLevel": "medium"
+        },
+        {
+          "questionTitle": "Implement a function to check if a given Sudoku board is valid.",
+          "example": {
+            "input": [
+              ["5", "3", ".", ".", "7", ".", ".", ".", "."],
+              ["6", ".", ".", "1", "9", "5", ".", ".", "."],
+              [".", "9", "8", ".", ".", ".", ".", "6", "."],
+              ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
+              ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
+              ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+              [".", "6", ".", ".", ".", ".", "2", "8", "."],
+              [".", ".", ".", "4", "1", "9", ".", ".", "5"],
+              [".", ".", ".", ".", "8", ".", ".", "7", "9"]
+            ],
+            "output": true
+          },
+          "testCase": [
+            { "input": [".", ".", ".", "4", ".", ".", ".", ".", "."], "expectedOutput": true },
+            { "input": ["5", "3", ".", ".", "7", ".", ".", ".", "5"], "expectedOutput": false },
+            { "input": ["6", ".", ".", ".", ".", ".", ".", ".", "."], "expectedOutput": true }
+          ],
+          "typeOfQuestion": "coding",
+          "subject": "Arrays",
+          "difficultyLevel": "medium"
+        },
+        {
+          "questionTitle": "Write a function to merge overlapping intervals.",
+          "example": {
+            "input": [[1, 3], [2, 6], [8, 10], [15, 18]],
+            "output": [[1, 6], [8, 10], [15, 18]]
+          },
+          "testCase": [
+            { "input": [[1, 4], [4, 5]], "expectedOutput": [[1, 5]] },
+            { "input": [[2, 3], [5, 7], [1, 10]], "expectedOutput": [[1, 10]] },
+            { "input": [[1, 2], [3, 4], [5, 6]], "expectedOutput": [[1, 2], [3, 4], [5, 6]] }
+          ],
+          "typeOfQuestion": "coding",
+          "subject": "Sorting & Intervals",
+          "difficultyLevel": "medium"
+        },
+        
+          {
+            "questionTitle": "Implement a function to find the number of islands in a given 2D grid.",
+            "example": {
+              "input": {
+                "grid": [
+                  ["1", "1", "0", "0", "0"],
+                  ["1", "1", "0", "0", "0"],
+                  ["0", "0", "1", "0", "0"],
+                  ["0", "0", "0", "1", "1"]
+                ]
+              },
+              "output": 3
+            },
+            "testCase": [
+              {
+                "input": {
+                  "grid": [
+                    ["1", "1", "1", "1", "0"],
+                    ["1", "1", "0", "1", "0"],
+                    ["1", "1", "0", "0", "0"],
+                    ["0", "0", "0", "0", "0"]
+                  ]
+                },
+                "expectedOutput": 1
+              },
+              {
+                "input": {
+                  "grid": [
+                    ["1", "0", "1", "0"],
+                    ["0", "1", "0", "1"],
+                    ["1", "0", "1", "0"]
+                  ]
+                },
+                "expectedOutput": 6
+              },
+              {
+                "input": {
+                  "grid": [
+                    ["0", "0", "0"],
+                    ["0", "0", "0"],
+                    ["0", "0", "0"]
+                  ]
+                },
+                "expectedOutput": 0
+              }
+            ],
+            "typeOfQuestion": "coding",
+            "subject": "Graph Theory",
+            "difficultyLevel": "medium"
+          },
+          {
+            "questionTitle": "Write a function to rotate an NxN matrix by 90 degrees clockwise.",
+            "example": {
+              "input": {
+                "matrix": [
+                  [1, 2, 3],
+                  [4, 5, 6],
+                  [7, 8, 9]
+                ]
+              },
+              "output": [
+                [7, 4, 1],
+                [8, 5, 2],
+                [9, 6, 3]
+              ]
+            },
+            "testCase": [
+              {
+                "input": {
+                  "matrix": [
+                    [1, 2],
+                    [3, 4]
+                  ]
+                },
+                "expectedOutput": [
+                  [3, 1],
+                  [4, 2]
+                ]
+              },
+              {
+                "input": {
+                  "matrix": [
+                    [5, 1, 9, 11],
+                    [2, 4, 8, 10],
+                    [13, 3, 6, 7],
+                    [15, 14, 12, 16]
+                  ]
+                },
+                "expectedOutput": [
+                  [15, 13, 2, 5],
+                  [14, 3, 4, 1],
+                  [12, 6, 8, 9],
+                  [16, 7, 10, 11]
+                ]
+              },
+              {
+                "input": {
+                  "matrix": [[1]]
+                },
+                "expectedOutput": [[1]]
+              }
+            ],
+            "typeOfQuestion": "coding",
+            "subject": "Arrays & Matrices",
+            "difficultyLevel": "medium"
+          }
+        
+        
+      
+      
     
     
 
