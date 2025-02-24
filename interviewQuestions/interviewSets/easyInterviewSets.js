@@ -1,4 +1,12 @@
-export const easySet1 = [
+export const easySet1 ={
+
+  setDifficulty : "Easy",
+
+  setNumber : "E1",
+
+   time: 2 * 60 * 60 * 1000 ,
+
+questions : [
 
     {
       "questionTitle": "What is the purpose of a 'for' loop in programming?",
@@ -441,13 +449,18 @@ export const easySet1 = [
               "subject": "Programming",
               "difficultyLevel": "easy"
             }
-          
-          
 ]
+        
+}
 
-export const easySet2 = [
+export const easySet2 = {
+  setDifficulty : "Easy",
+
+  setNumber : "E2",
+
+   time: 2 * 60 * 60 * 1000 ,
   
-    {
+   questions : [ {
       "questionTitle": "Which data structure is used to implement a stack?",
       "options": ["Queue", "Linked List", "Array", "Tree"],
       "correctAnswer": "Array",
@@ -888,13 +901,18 @@ export const easySet2 = [
           "typeOfQuestion": "coding",
           "subject": "Programming",
           "difficultyLevel": "easy"
-        }
-      
-      
+        }   
 ]
+}
 
-export const easySet3 = [
-  {
+
+export const easySet3 = {
+  setDifficulty : "Easy",
+
+  setNumber : "E3",
+
+   time: 2 * 60 * 60 * 1000 ,
+  questions : [{
     "questionTitle": "What is the purpose of the 'WHERE' clause in an SQL SELECT statement?",
     "options": ["To sort data", "To filter data", "To group data", "To join tables"],
     "correctAnswer": "To filter data",
@@ -1338,10 +1356,16 @@ export const easySet3 = [
     
     
 ]
+}
 
-export const easySet4 = [
+export const easySet4 = {
+  setDifficulty : "Easy",
+
+  setNumber : "E4",
+
+   time: 2 * 60 * 60 * 1000 ,
   
-    {
+    questions : [{
       "questionTitle": "What is the purpose of the 'JOIN' clause in SQL?",
       "options": ["To filter data", "To sort data", "To combine rows from two or more tables", "To group data"],
       "correctAnswer": "To combine rows from two or more tables",
@@ -1784,9 +1808,17 @@ export const easySet4 = [
             "difficultyLevel": "easy"
           }  
 ]
+}
   
-export const easySet5 = [
-  {
+export const easySet5 = {
+
+  setDifficulty : "Easy",
+
+  setNumber : "E5",
+
+   time: 2 * 60 * 60 * 1000 ,
+
+  questions : [{
     "questionTitle": "Which sorting algorithm is based on the divide-and-conquer strategy?",
     "options": ["Bubble Sort", "Quick Sort", "Selection Sort", "Insertion Sort"],
     "correctAnswer": "Quick Sort",
@@ -2239,4 +2271,5 @@ export const easySet5 = [
         "difficultyLevel": "easy"
       }
 ]
+}
 console.log(easySet5)

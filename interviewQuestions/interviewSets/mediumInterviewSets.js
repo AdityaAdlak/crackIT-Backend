@@ -1,6 +1,12 @@
 
-export const mediumSet1 = [
-        {
+export const mediumSet1 = {
+  setDifficulty : "Medium",
+
+  setNumber : "M1",
+
+   time: 3 * 60 * 60 * 1000 ,
+
+        questions : [{
           "questionTitle": "Which sorting algorithm has the worst-case time complexity of O(n^2) but performs well for small datasets?",
           "options": ["Merge Sort", "Quick Sort", "Insertion Sort", "Heap Sort"],
           "correctAnswer": "Insertion Sort",
@@ -451,8 +457,17 @@ export const mediumSet1 = [
                         }          
 
 ]
+}
 
-export const mediumSet2 = [
+export const mediumSet2 = {
+
+  setDifficulty : "Medium",
+
+  setNumber : "M2",
+
+   time: 3 * 60 * 60 * 1000 ,
+
+        questions : [
     {
       "questionTitle": "Which data structure is used in Depth First Search (DFS)?",
       "options": ["Queue", "Stack", "Heap", "Linked List"],
@@ -898,9 +913,16 @@ export const mediumSet2 = [
                   "subject": "Strings",
                   "difficultyLevel": "medium"
                 }    
-]
+]}
 
-export const mediumSet3 = [
+export const mediumSet3 = {
+  setDifficulty : "Medium",
+
+  setNumber : "M3",
+
+   time: 3 * 60 * 60 * 1000 ,
+
+        questions : [
     {
         "questionTitle": "Which data structure is used to implement recursion?",
         "options": ["Queue", "Stack", "Linked List", "Heap"],
@@ -1344,11 +1366,19 @@ export const mediumSet3 = [
                   "difficultyLevel": "medium"
                 }
               ]
+            }
               
                        
 
 
-export const mediumSet4 = [
+export const mediumSet4 = {
+  setDifficulty : "Medium",
+
+  setNumber : "M4",
+
+   time: 3 * 60 * 60 * 1000 ,
+
+        questions : [
     {
       "questionTitle": "What is the worst-case time complexity of QuickSort?",
       "options": ["O(n log n)", "O(n^2)", "O(n)", "O(log n)"],
@@ -1827,8 +1857,16 @@ export const mediumSet4 = [
                       "difficultyLevel": "medium"
                     }
   ]
+}
 
-export const mediumSet5 = [
+export const mediumSet5 = {
+  setDifficulty : "Medium",
+
+  setNumber : "M5",
+
+   time: 3 * 60 * 60 * 1000 ,
+
+        questions : [
   {
     "questionTitle": "Which data structure is used for implementing recursion?",
     "options": ["Queue", "Stack", "Heap", "Linked List"],
@@ -2399,18 +2437,8 @@ export const mediumSet5 = [
             "subject": "Arrays & Matrices",
             "difficultyLevel": "medium"
           }
-        
-        
-      
-      
-    
-    
-
-
-  
-  
-
 ]
+}
 
   
 
