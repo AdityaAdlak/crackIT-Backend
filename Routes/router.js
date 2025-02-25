@@ -4,8 +4,13 @@ import {signup , login} from "../Controllers/userAuth.js"
 import {auth} from "../Middlewares/AuthnAndAuthz.js"
 import {createEntry} from "../Controllers/interviewSetsEntry.js"
 import {promptFinder} from "../AI/ai.controller.js"
+import {interview_set_levelwise} from "../Controllers/interviewSetDisplay.js"
 
-router.get("/airesponse",(req,res)=>{
+router.get("/interviewSetShow/:setDifficulty",(req,res)=>{
+    interview_set_levelwise(req,res)
+})
+
+router.get("/aifeedbackresponse",(req,res)=>{
     promptFinder(req,res)
 })
 
