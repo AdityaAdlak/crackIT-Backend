@@ -80,7 +80,7 @@ const interviewSetSchema = new mongoose.Schema({
         required : true
     },
 
-    questions : [{questionSchema}],
+    questions : [questionSchema],
 
     
 })
