@@ -1,11 +1,7 @@
-
-import { json } from "express";
 import {generateContent} from "../AI/ai.service.js"
 export const promptFinder = async(req,res)=>
 {
     try {
-    
-
     const prompt = `
     You are an AI interview evaluator. Given a set of theoretical and coding questions answered by a candidate, analyze each answer carefully.
     - For theoretical questions, evaluate correctness, clarity, depth, and use of relevant examples.
