@@ -5,7 +5,6 @@ import {interviewSet} from "../Models/interviewModel.js"
 export const createEntry = async(req,res)=>{
 
     try {
-
         const Sets = [
             easySet1,
             easySet2,

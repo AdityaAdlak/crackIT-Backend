@@ -3,6 +3,11 @@ const router = express.Router();
 import {signup , login} from "../Controllers/userAuth.js"
 import {auth} from "../Middlewares/AuthnAndAuthz.js"
 import {createEntry} from "../Controllers/interviewSetsEntry.js"
+import {promptFinder} from "../AI/ai.controller.js"
+
+router.get("/airesponse",(req,res)=>{
+    promptFinder(req,res)
+})
 
 router.post("/signup",(req,res)=>{
     signup(req,res);
