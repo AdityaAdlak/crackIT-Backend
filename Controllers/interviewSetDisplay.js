@@ -1,4 +1,4 @@
-import {interviewSet} from "../Models/interviewModel.js";
+import { interviewSet } from "../Models/interviewModel.js";
 
 export const interview_set_levelwise = async(req,res)=>{
     try {

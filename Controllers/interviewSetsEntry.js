@@ -1,6 +1,6 @@
 import {easySet1 , easySet2 , easySet3 , easySet4 , easySet5} from "../interviewQuestions/interviewSets/easyInterviewSets.js"
 import {mediumSet1 , mediumSet2 , mediumSet3 , mediumSet4 , mediumSet5} from "../interviewQuestions/interviewSets/mediumInterviewSets.js"
-import {interviewSet} from "../Models/interviewModel.js"
+import { interviewSet } from "../Models/interviewModel.js"
 
 export const createEntry = async(req,res)=>{
 
