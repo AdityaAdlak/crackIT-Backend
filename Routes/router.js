@@ -6,6 +6,7 @@ import {createEntry} from "../Controllers/interviewSetsEntry.js"
 import {promptFinder} from "../AI/ai.controller.js"
 import {interview_set_levelwise} from "../Controllers/interviewSetDisplay.js"
 import {userEvaluation} from "../Controllers/userAnswerEvaluation.js"
+import {codeExecution} from "../Controllers/compilerController.js"
 
 router.post("/submit",(req,res)=>{
     userEvaluation(req,res);
@@ -38,4 +39,8 @@ router.get("/entry",(req,res)=>{
     createEntry(req,res);
 })
 
+
+router.post("/execute", (req, res) => {
+    codeExecution(req,res)
+});
 export {router};
