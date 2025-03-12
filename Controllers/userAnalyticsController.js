@@ -15,77 +15,115 @@ export const createUserAnalytics = async (userId) => {
 }
 
 
-export const totalAttempted = async (userId,{mcqCount , theoryCount , codingCount ,correctMcqCount , correctCodingCount})=>{
-    try {
+// export const totalAttempted = async (userId,{correctMcqCount , correctCodingCount, totalScore})=>{
+//     try {
 
-        if(!mcqCount || !theoryCount || !codingCount || !correctCodingCount || !correctMcqCount)
-        {
-            console.log("Enter All Entries");
-            return ;
-        }
-
-       
-
-
-        const updatedUser = await UserAnalytics.findOneAndUpdate(  { userId }, 
-            {
-                $inc: {
-                    totalMCQ: mcqCount,       
-                    totalTheory: theoryCount, 
-                    totalCoding: codingCount,
-                    correctMcqCount : correctMcqCount,
-                    correctCodingCount : correctCodingCount
-                }
-                // Increments the specified fields by the provided value (if the field doesn’t exist, it initializes it).
-            },
-            {
-                new: true,
-                upsert: true // Create if not found
-            }
-        );
-        if(updatedUser)
-        {
-            console.log("Total Attempted and Correct entry updated...", updatedUser); 
-        }
-
-
-    
+//         console.log("In totalAttempted coding , mcq and totalCount = ",correctCodingCount , correctMcqCount)
         
-    } catch (error) {
-        console.log("Error in creating Total Attempted and Correct Entry...",error)
-    }
-}
+//         if(correctCodingCount == null|| correctMcqCount== null || totalScore < 0)
+//         {
+//             console.log("Enter All Entries");
+//             return ;
+//         }
+
+//         const updatedUser = await UserAnalytics.findOneAndUpdate(  { userId }, 
+//             {
+//                 // used to increament numeric values
+                
+
+//                 $inc: {
+//                     correctMCQ : correctMcqCount,
+//                     correctCoding : correctCodingCount,
+//                 },
+                
+
+//             },
+//             {
+//                 new: true,
+//                 upsert: true // Create if existing not found
+//             }
+//         );
+
+//         if (updatedUser) {
+//             await UserAnalytics.findOneAndUpdate(
+//                 { userId },
+//                 {
+//                     // used to add values in array
+//                     $push: {
+//                         improvementOverTime: {
+//                             date: new Date(),
+//                             score: totalScore
+//                         }
+//                     }
+//                 },
+//                 { new: true }
+//             );
+           
+//    } } catch (error) {
+//         console.log("Error in creating Total Attempted and Correct Entry...",error)
+//     }
+// }
 
 
-export const improvementOverTime = async (userId, score) => {
+
+export const totalAttempted = async (userId, { correctMcqCount, correctCodingCount, totalScore, interviewSetId }) => {
     try {
-        if (!userId || !score ) {
-            console.log("Enter correct userId and score");
+        console.log("In totalAttempted coding, mcq and totalCount = ", correctCodingCount, correctMcqCount);
+
+        if (correctCodingCount == null || correctMcqCount == null || totalScore < 0) {
+            console.log("Enter All Entries");
             return;
         }
 
-        const userAnalytics = await UserAnalytics.findOneAndUpdate(
-            {_id :  userId },
-            {
-                // add elements in array
-                $push: {
-                    improvementOverTime: {
-                        score: score,
-                        date: new Date()
-                    }
-                }
-            },
-            { new: true }
-            // return most updated document means most newly 
-        );
+        // 🔥 Get existing user analytics
+        const existingAnalytics = await UserAnalytics.findOne({ userId });
 
-        if (!userAnalytics) {
-            console.log("User analytics not found for user:", userId);
-            return;
+        let newCorrectMcqCount = correctMcqCount;
+        let newCorrectCodingCount = correctCodingCount;
+
+        if (existingAnalytics) {
+            // ✅ Prevent double counting by checking existing correct counts
+            if (existingAnalytics.correctMCQ + correctMcqCount > existingAnalytics.totalMCQ) {
+                newCorrectMcqCount = existingAnalytics.totalMCQ - existingAnalytics.correctMCQ;
+            }
+
+            if (existingAnalytics.correctCoding + correctCodingCount > existingAnalytics.totalCoding) {
+                newCorrectCodingCount = existingAnalytics.totalCoding - existingAnalytics.correctCoding;
+            }
         }
 
-        console.log(`Improvement over time updated for user: ${userId}, score: ${score}`);
+        console.log(`New Correct MCQ: ${newCorrectMcqCount}, New Correct Coding: ${newCorrectCodingCount}`);
+
+        // 🔥 Update only if there are new unique correct answers
+        if (newCorrectMcqCount > 0 || newCorrectCodingCount > 0) {
+            const updatedUser = await UserAnalytics.findOneAndUpdate(
+                { userId },
+                {
+                    $inc: {
+                        correctMCQ: newCorrectMcqCount > 0 ? newCorrectMcqCount : 0,
+                        correctCoding: newCorrectCodingCount > 0 ? newCorrectCodingCount : 0,
+                    },
+                },
+                { new: true, upsert: true }
+            );
+
+            if (updatedUser) {
+                await UserAnalytics.findOneAndUpdate(
+                    { userId },
+                    {
+                        $push: {
+                            improvementOverTime: {
+                                date: new Date(),
+                                score: totalScore
+                            }
+                        }
+                    },
+                    { new: true }
+                );
+            }
+        }
+
     } catch (error) {
-        console.error(`Error updating improvement over time for user: ${userId}`, error.message);
+        console.log("Error in creating Total Attempted and Correct Entry...", error);
     }
 };

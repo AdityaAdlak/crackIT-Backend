@@ -18,18 +18,6 @@ const userSchema = new mongoose.Schema({
         minlength : 6
     },
 
-    role : {
-        type : String,
-        enum : ["user","admin"],
-        default : "user",
-    },
-
-    progress : {
-        easy : {type : Number , default : 0},
-        medium : {type : Number , default : 0},
-        hard : {type : Number , default : 0}
-    },
-
     createdAt : {
         type : Date,
         default : Date.now,

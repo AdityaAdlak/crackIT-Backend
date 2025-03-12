@@ -2,7 +2,7 @@
 import { userAnswer } from "../Models/userAttemptAnswers.js";
 import { interviewSet } from "../Models/interviewModel.js";
 import { promptFinder } from "../AI/ai.controller.js";
-import { improvementOverTime, totalAttempted } from "../Controllers/userAnalyticsController.js";
+import {  totalAttempted } from "../Controllers/userAnalyticsController.js";
 import { executeCode } from "../Compiler/codeExecutor.js";
 import mongoose, { mongo } from "mongoose";
 
@@ -39,21 +39,21 @@ export const userEvaluation = async(req,res)=>{
             const userResponse = answers.find(ans => q.questionTitle === ans.questionTitle) || {};
         
            
-            console.log("User response:", userResponse);
+            // console.log("User response:", userResponse);
         
             if (userResponse && userResponse.response !== null) {
                 const questionType = userResponse.questionType?.toLowerCase();
         
                 switch (questionType) {
                     case 'mcq':
-                        mcqCount++;
+                        // mcqCount++;
                         if (userResponse.response === q.correctAnswer) {
                             correctMcqCount++;
                         }
                         break;
         
                     case 'coding':
-                        codingCount++;
+                        // codingCount++;
         
                     
                         if (!q.testCase || !Array.isArray(q.testCase) || q.testCase.length === 0) {
@@ -88,6 +88,8 @@ export const userEvaluation = async(req,res)=>{
                             if (result.passedCases === q.testCase.length) {
                                 correctCodingCount++;
                             }
+
+                            
                         } catch (err) {
                             console.error(`Error during code execution for question: ${q.questionTitle}`, err.message);
                             throw new Error("Code execution failed");
@@ -133,31 +135,24 @@ let totalScore = 0;
 totalScore = correctCodingCount + correctMcqCount;
 
 await Promise.all([
-    totalAttempted(userId, { mcqCount, theoryCount, codingCount, correctMcqCount, correctCodingCount }),
+    totalAttempted(userId, { mcqCount, theoryCount, codingCount, correctMcqCount, correctCodingCount, totalScore }),
     promptFinder(newUserAns._id)
         .then(aiFeedback => {
             console.log("AI evaluation done:", aiFeedback);
         })
         .catch(err => console.log("Error in AI evaluation:", err)),
 
-        (async()=>{
-            if(mongoose.Types.ObjectId.isValid(userId) && typeof totalScore === 'number' && totalScore >= 0)
-            {
-                await improvementOverTime(userId , totalScore);
-            }
-            else{
-                console.log("Invalid userId or score...")
-            }
-        })
 ]);
 
-
+console.log("corect coding count = ",correctCodingCount , correctMcqCount , totalScore)
         return res.status(201).json({
             success : true,
             message : "Answers submitted successfully...",
             data : newUserAns 
         });
 
+
+       
     }  
 
     catch (error) {

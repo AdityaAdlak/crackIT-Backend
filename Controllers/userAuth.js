@@ -39,12 +39,20 @@ export const signup = async(req,res)=>{
             branch
         })
 
-            createUserAnalytics(responseDetails._id);
+        const userEntry = await User.create({
+            fullName , 
+            email,
+            password : hashedPass,
+            branch
+        })
+
+        createUserAnalytics(responseDetails._id);
 
         return res.status(201).json({
 
             success : true,
             data : responseDetails,
+            userData : userEntry,
             message : "User signed up successfully..."
         })
 
