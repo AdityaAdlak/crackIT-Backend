@@ -2,8 +2,9 @@
 import { userAnswer } from "../Models/userAttemptAnswers.js";
 import { interviewSet } from "../Models/interviewModel.js";
 import { promptFinder } from "../AI/ai.controller.js";
-import { totalAttempted } from "../Controllers/userAnalyticsController.js";
+import { improvementOverTime, totalAttempted } from "../Controllers/userAnalyticsController.js";
 import { executeCode } from "../Compiler/codeExecutor.js";
+import mongoose, { mongo } from "mongoose";
 
 
 export const userEvaluation = async(req,res)=>{
@@ -32,6 +33,7 @@ export const userEvaluation = async(req,res)=>{
 
         const formattedAnswers = [];
 
+
         for (const q of set.questions) {
 
             const userResponse = answers.find(ans => q.questionTitle === ans.questionTitle) || {};
@@ -58,8 +60,7 @@ export const userEvaluation = async(req,res)=>{
                             console.log(`Invalid test case format for question: ${q.questionTitle}`, q.testCase);
                             throw new Error("Invalid test case format");
                         }
-        
-                        
+
                         const formattedTestCases = q.testCase.map(tc => [
                             tc.input.toString(),
                             tc.expectedOutput.toString()
@@ -133,12 +134,21 @@ totalScore = correctCodingCount + correctMcqCount;
 
 await Promise.all([
     totalAttempted(userId, { mcqCount, theoryCount, codingCount, correctMcqCount, correctCodingCount }),
-    improvementOverTime(userId , totalScore),
     promptFinder(newUserAns._id)
         .then(aiFeedback => {
             console.log("AI evaluation done:", aiFeedback);
         })
-        .catch(err => console.log("Error in AI evaluation:", err))
+        .catch(err => console.log("Error in AI evaluation:", err)),
+
+        (async()=>{
+            if(mongoose.Types.ObjectId.isValid(userId) && typeof totalScore === 'number' && totalScore >= 0)
+            {
+                await improvementOverTime(userId , totalScore);
+            }
+            else{
+                console.log("Invalid userId or score...")
+            }
+        })
 ]);
 
 

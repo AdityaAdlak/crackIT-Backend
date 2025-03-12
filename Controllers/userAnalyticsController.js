@@ -18,9 +18,6 @@ export const createUserAnalytics = async (userId) => {
 export const totalAttempted = async (userId,{mcqCount , theoryCount , codingCount ,correctMcqCount , correctCodingCount})=>{
     try {
 
-
-
-
         if(!mcqCount || !theoryCount || !codingCount || !correctCodingCount || !correctMcqCount)
         {
             console.log("Enter All Entries");
@@ -62,13 +59,13 @@ export const totalAttempted = async (userId,{mcqCount , theoryCount , codingCoun
 
 export const improvementOverTime = async (userId, score) => {
     try {
-        if (!userId || score === undefined) {
+        if (!userId || !score ) {
             console.log("Enter correct userId and score");
             return;
         }
 
         const userAnalytics = await UserAnalytics.findOneAndUpdate(
-            { userId },
+            {_id :  userId },
             {
                 // add elements in array
                 $push: {
