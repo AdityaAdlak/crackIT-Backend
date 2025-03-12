@@ -27,6 +27,7 @@ export const userEvaluation = async(req,res)=>{
         let codingCount = 0;
         let correctMcqCount = 0;
         let correctCodingCount = 0;
+        
 
 
         const formattedAnswers = [];
@@ -126,8 +127,13 @@ export const userEvaluation = async(req,res)=>{
 
         
 // running simultaneous process 
+
+let totalScore = 0;
+totalScore = correctCodingCount + correctMcqCount;
+
 await Promise.all([
     totalAttempted(userId, { mcqCount, theoryCount, codingCount, correctMcqCount, correctCodingCount }),
+    improvementOverTime(userId , totalScore),
     promptFinder(newUserAns._id)
         .then(aiFeedback => {
             console.log("AI evaluation done:", aiFeedback);
@@ -143,8 +149,6 @@ await Promise.all([
         });
 
     }  
-
-      
 
     catch (error) {
         return res.status(500).json(

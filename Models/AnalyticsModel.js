@@ -22,11 +22,6 @@ const analyticsSchema = new mongoose.Schema({
         default: 150
     },
 
-    totalSolvedSets: {
-        type: Number,
-        default: 0
-    },
-
     correctMCQ: {
         type: Number,
         default: 0
