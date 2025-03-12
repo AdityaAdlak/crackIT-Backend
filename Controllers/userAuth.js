@@ -4,6 +4,7 @@ import {Login} from "../Models/loginModel.js";
 import {SignUp} from "../Models/signUpModel.js";
 import {User} from "../Models/userModel.js";
 import dotenv from "dotenv"
+import {createUserAnalytics} from "../Controllers/userAnalyticsController.js"
 
 dotenv.config();
 
@@ -38,8 +39,10 @@ export const signup = async(req,res)=>{
             branch
         })
 
+            createUserAnalytics(responseDetails._id);
 
         return res.status(201).json({
+
             success : true,
             data : responseDetails,
             message : "User signed up successfully..."

@@ -7,6 +7,11 @@ import {promptFinder} from "../AI/ai.controller.js"
 import {interview_set_levelwise} from "../Controllers/interviewSetDisplay.js"
 import {userEvaluation} from "../Controllers/userAnswerEvaluation.js"
 import {codeExecution} from "../Controllers/compilerController.js"
+import {finalAnalytics} from "../Controllers/finalUserAnalytics.js"
+
+router.get("/userAnalytics/:userId",(req,res)=>{
+    finalAnalytics(req,res);
+})
 
 router.post("/submit",(req,res)=>{
     userEvaluation(req,res);

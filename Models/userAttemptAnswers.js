@@ -20,6 +20,11 @@ const userAnswerSchema = new mongoose.Schema({
         default: "notSubmitted"
     },
 
+    codingQueLang : {
+        type : String,
+        enum : ["c++", "cpp" , "java" , "c" , "python"]
+    },
+
     answers: [
         {
             questionTitle: { type: String, required: true },  
@@ -34,8 +39,10 @@ const userAnswerSchema = new mongoose.Schema({
 
     attemptDate : {
         type : Date,
-        default : Date.now()
-    }
+        default : Date.now
+    },
+
+    
 })
 
 const userAnswer = mongoose.model("userAnswer",userAnswerSchema);
