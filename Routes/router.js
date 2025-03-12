@@ -8,6 +8,11 @@ import {interview_set_levelwise} from "../Controllers/interviewSetDisplay.js"
 import {userEvaluation} from "../Controllers/userAnswerEvaluation.js"
 import {codeExecution} from "../Controllers/compilerController.js"
 import {finalAnalytics} from "../Controllers/finalUserAnalytics.js"
+import {AskAnything} from "../Controllers/AiAskController.js"
+
+router.post("/askAi",(req,res)=>{
+    AskAnything(req,res)
+})
 
 router.get("/userAnalytics/:userId",(req,res)=>{
     finalAnalytics(req,res);
