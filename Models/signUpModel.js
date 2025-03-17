@@ -19,10 +19,6 @@ const userSignUp = new mongoose.Schema({
         required : true
     },
 
-    branch : {
-        type : String,
-        required : true
-    }
 })
 
 const SignUp = mongoose.model("SignUp",userSignUp);

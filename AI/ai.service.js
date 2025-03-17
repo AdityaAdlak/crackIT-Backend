@@ -14,8 +14,19 @@ const model = genAI.getGenerativeModel({model : "gemini-2.0-flash"});
 export const generateContent = async(fullprompt)=>
 {
     try {
-        console.log("Prompt sent:", fullprompt);
-        const result = await model.generateContent(fullprompt);
+        if(!fullprompt.contents)
+        {
+            console.log("Enter prompt first");
+            return ;
+        }
+        const result = await model.generateContent({
+            // contents is an array
+            contents: [
+                {
+                    parts: [{ text: fullprompt.contents }] 
+                }
+            ]
+        });
         const response = result.response.candidates[0].content.parts[0].text;
         return response;
     } catch (error) {

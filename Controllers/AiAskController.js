@@ -2,7 +2,8 @@ import {generateContent} from "../AI/ai.service.js"
 
 export const AskAnything = async(req,res)=>{
     try {
-        const {prompt} =  req.body;
+        const prompt =  req.body;
+
 
         const result = await generateContent(prompt);
 

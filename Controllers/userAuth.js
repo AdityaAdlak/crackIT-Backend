@@ -10,9 +10,9 @@ dotenv.config();
 
 export const signup = async(req,res)=>{
     try {
-        const {fullName , email , password , branch} = req.body;
+        const {fullName , email , password} = req.body;
 
-        if(!fullName || !email || !password || !branch)
+        if(!fullName || !email || !password)
         {
             return res.status(400).json({
                 success : false,
@@ -36,14 +36,14 @@ export const signup = async(req,res)=>{
             fullName , 
             email,
             password : hashedPass,
-            branch
+           
         })
 
         const userEntry = await User.create({
             fullName , 
             email,
             password : hashedPass,
-            branch
+            
         })
 
         createUserAnalytics(responseDetails._id);
