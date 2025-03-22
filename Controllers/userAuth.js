@@ -39,12 +39,12 @@ export const signup = async(req,res)=>{
            
         })
 
-        const userEntry = await User.create({
-            fullName , 
-            email,
-            password : hashedPass,
+        // const userEntry = await User.create({
+        //     fullName , 
+        //     email,
+        //     password : hashedPass,
             
-        })
+        // })
 
         createUserAnalytics(responseDetails._id);
 
@@ -52,7 +52,6 @@ export const signup = async(req,res)=>{
 
             success : true,
             data : responseDetails,
-            userData : userEntry,
             message : "User signed up successfully..."
         })
 
@@ -94,6 +93,8 @@ export const login = async(req,res)=>{
     }
 
     let token;
+
+    console.log("jwt secret ",process.env.JWT_SECRET)
     
     if(await bcrypt.compare(password,user.password))
     {
