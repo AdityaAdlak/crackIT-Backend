@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { userAnswer } from "./userAttemptAnswers.js";
+
 
 const aiEvaluationSchema = new mongoose.Schema({
 
@@ -15,6 +15,7 @@ const aiEvaluationSchema = new mongoose.Schema({
             type : String,
             required : true
             },
+            
 
             questionType : {
                 type : String,
@@ -50,3 +51,4 @@ const aiEvaluationSchema = new mongoose.Schema({
 
 const aiEvaluation = mongoose.model("aiEvaluation",aiEvaluationSchema);
 export {aiEvaluation};
+

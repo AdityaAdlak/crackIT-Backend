@@ -3,38 +3,30 @@ import { promisify } from "util";
 import { exec } from "child_process";
 import fs from "fs";
 
+const execPromise = promisify(exec);  
 
 export const executeCode = async (code, lang, testCases) => {
     const fileName = `code.${lang}`;
     const inputFile = `input.txt`;
 
-    
-    testCases = testCases.map(tc => {
-        if (Array.isArray(tc)) {
-            return {
-                input: [tc[0]], 
-                expectedOutput: tc[1] 
-            };
-        }
-        return tc;
-    });
-    
-
-    if (!testCases || !Array.isArray(testCases) || testCases.length === 0) {
-        throw new Error("Invalid test cases");
+    if (!Array.isArray(testCases) || testCases.length === 0) {
+        throw new Error("Invalid test cases format: testCases should be an array of {input, expectedOutput}");
     }
 
-    
+    testCases = testCases.map(tc => ({
+        input: Array.isArray(tc.input) ? tc.input : [tc.input],
+        expectedOutput: tc.expectedOutput
+    }));
+
     fs.writeFileSync(fileName, code);
 
     let passedCases = 0;
 
     for (const testCase of testCases) {
-        if (!Array.isArray(testCase.input) || testCase.expectedOutput === undefined) {
-            throw new Error("Invalid test case format");
+        if (!Array.isArray(testCase.input) || typeof testCase.expectedOutput === "undefined") {
+            throw new Error("Invalid test case structure");
         }
 
-       
         const formattedInput = testCase.input.join(" ");
         fs.writeFileSync(inputFile, formattedInput);
 
@@ -68,17 +60,15 @@ export const executeCode = async (code, lang, testCases) => {
         }
 
         try {
-            console.log(`Executing command: ${command}`);
+            console.log(`Executing: ${command}`);
             const { stdout } = await execPromise(command);
 
             const output = stdout.trim();
 
-            console.log(`Expected: ${testCase.expectedOutput}, Got: ${output}`);
+            console.log(`Test Case: Input=${formattedInput}, Expected=${testCase.expectedOutput}, Got=${output}`);
 
-            if (String(output) === String(testCase.expectedOutput)) {
+            if (output === String(testCase.expectedOutput)) {
                 passedCases++;
-            } else {
-                console.log(`Test case failed: ${testCase.input}`);
             }
         } catch (error) {
             console.error("Execution failed:", error);
@@ -86,7 +76,6 @@ export const executeCode = async (code, lang, testCases) => {
         }
     }
 
-    // ✅ Cleanup
     try {
         fs.unlinkSync(fileName);
         fs.unlinkSync(inputFile);

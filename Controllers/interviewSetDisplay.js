@@ -8,7 +8,7 @@ export const interview_set_levelwise = async (req, res) => {
     try {
         const { setDifficulty } = req.params;
 
-        // Fetch exactly 10 sets
+      
         const interviewSets = await interviewSet.find({ setDifficulty: setDifficulty }).limit(10);
 
         if (!interviewSets || interviewSets.length === 0) {
@@ -19,17 +19,19 @@ export const interview_set_levelwise = async (req, res) => {
         }
 
         const formattedData = interviewSets.map((e) => ({
-            // Use uuid for unique set IDs
+       
             setNumber: uuidv4(),
             setDifficulty: e.setDifficulty,
             questionCount: e.questions.length,
             totalTime: e.time,
+            setId : e._id,
            
 
 
             theoreticalQuestions : e.questions.filter(q=>q.typeOfQuestion === "theoretical")
             .map(q=>({
                 question : q.questionTitle,
+                questionType : q.typeOfQuestion || "unknown"
             })),
 
 
@@ -37,29 +39,38 @@ export const interview_set_levelwise = async (req, res) => {
             .map(q=>({
                 question : q.questionTitle,
                 options : q.options || [],
-                correctOption : q.correctAnswer
+                correctOption : q.correctAnswer,
+                questionType : q.typeOfQuestion || "unknown"
             })),
 
-            
-
-
-
-        
-
-        
+           
 
         codingQuestions: e.questions
     .filter(q => q.typeOfQuestion === "coding")
     .map(q => ({
         questionTitle: q.questionTitle,
+        questionId : q._id.toString(),
+        questionType : q.typeOfQuestion || "unknown",
         example: q.example || "",
-        testCases: Array.isArray(q.testCase)
-            ? q.testCase.map(tc => ({
-                input: JSON.stringify(tc.input) || "Invalid input", // ✅ Convert to string
-                output: JSON.stringify(tc.output) || "Invalid output" // ✅ Convert to string
-            }))
-            : []
+
+
+
+testCases: Array.isArray(q.testCase)
+    ? q.testCase.map(tc => {
+        console.log("Raw Test Case:", tc);  
+        
+        return {
+            input: JSON.stringify(tc.input) || "Invalid input",
+            expectedOutput: tc.expectedOutput !== undefined && tc.expectedOutput !== null
+                ? JSON.stringify(tc.expectedOutput)  
+                : "Invalid output"
+        };
+    })
+    : []
+
     }))
+
+   
 
 
 }))

@@ -2,16 +2,14 @@ import mongoose from "mongoose";
 import { interviewSet } from "./interviewModel.js";
 
 const userAnswerSchema = new mongoose.Schema({
-    userId : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "User",
-        reequired : true
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true  
     },
 
-    interviewSetId : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "interviewSet",
-        required : true
+    interviewSetId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
     },
 
     status: {
@@ -20,9 +18,9 @@ const userAnswerSchema = new mongoose.Schema({
         default: "notSubmitted"
     },
 
-    codingQueLang : {
-        type : String,
-        enum : ["c++", "cpp" , "java" , "c" , "python"]
+    codingQueLang: {
+        type: String,
+        enum: ["c++", "cpp", "java", "c", "python"]
     },
 
     answers: [
@@ -37,13 +35,12 @@ const userAnswerSchema = new mongoose.Schema({
         }
     ],
 
-    attemptDate : {
-        type : Date,
-        default : Date.now
-    },
+    attemptDate: {
+        type: Date,
+        default: Date.now
+    }
+});
 
-    
-})
+const userAnswer = mongoose.model("userAnswer", userAnswerSchema);
+export { userAnswer };
 
-const userAnswer = mongoose.model("userAnswer",userAnswerSchema);
-export {userAnswer};

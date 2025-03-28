@@ -2,17 +2,21 @@ import express from "express";
 const router = express.Router();
 import {signup , login} from "../Controllers/userAuth.js"
 import {auth} from "../Middlewares/AuthnAndAuthz.js"
-// import { getUserData } from "../Controllers/userController.js";
+import {aiEvaluationShow} from "../Controllers/getAiEvaluatedAnswers.js"
 import {promptFinder} from "../AI/ai.controller.js"
 import {interview_set_levelwise} from "../Controllers/interviewSetDisplay.js"
 import {userEvaluation} from "../Controllers/userAnswerEvaluation.js"
 import {codeExecution} from "../Controllers/compilerController.js"
 import {finalAnalytics} from "../Controllers/finalUserAnalytics.js"
 import {AskAnything} from "../Controllers/AiAskController.js"
+import {getLatestUserAnswer} from "../Controllers/latestUserId.js"
 
-// router.get("/get-user-data",auth,(req,res)=>{
-//     getUserData(req,res);
-// })
+
+router.get("/getLatestUserAnswer/:userId", (req,res)=>getLatestUserAnswer(req,res));
+
+router.get("/getAiEvaluation/:userAnswerId",(req,res)=>{
+    aiEvaluationShow(req,res);
+})
 
 router.post("/askAi",(req,res)=>{
     AskAnything(req,res)

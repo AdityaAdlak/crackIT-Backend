@@ -2,15 +2,16 @@ import { executeCode } from "../Compiler/codeExecutor.js";
 
 export const codeExecution = async (req, res) => {
     try {
-        const { code, lang, input } = req.body;
+        console.log("Request Body:", JSON.stringify(req.body, null, 2));
+        const { code, lang, testCases } = req.body;
 
-        if (!code || !lang) {
+        if (!code || !lang || !Array.isArray(testCases)) {
             return res.status(401).json({
-                message: "Enter Code and Language properly..."
+                message: "Invalid input format. Provide code, lang, and testCases as an array."
             });
         }
 
-        const result = await executeCode(code, lang, input); 
+        const result = await executeCode(code, lang, testCases); 
         return res.json(result);
 
     } catch (error) {
