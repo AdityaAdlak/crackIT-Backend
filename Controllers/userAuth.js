@@ -65,77 +65,83 @@ export const signup = async(req,res)=>{
 }
 
 
-export const login = async(req,res)=>{
-    try{
-    const {email , password} = req.body;
-    
-    if(!email || !password)
-    {
-        return res.status(400).json({
-            success : false,
-            message : "Enter mandatory fields..."
-        })
-    }
+export const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
 
-    let user = await SignUp.findOne({email});
+        if (!email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Enter mandatory fields...",
+            });
+        }
 
-    if(!user)
-    {
-        return res.status(404).json({
-            success : false,
-            message : "User not found please sign Up first..."
-        })
-    }
+        let user = await SignUp.findOne({ email });
 
-    const payload = {
-        email : user.email,
-        id : user._id
-    }
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found, please sign up first...",
+            });
+        }
 
-    let token;
+        console.log("JWT Secret:", process.env.JWT_SECRET);
 
-    console.log("jwt secret ",process.env.JWT_SECRET)
-    
-    if(await bcrypt.compare(password,user.password))
-    {
-        const JWT_SECRET = process.env.JWT_SECRET
+        if (await bcrypt.compare(password, user.password)) {
+            const payload = {
+                email: user.email,
+                id: user._id,
+            };
 
-        token = jsonwebtoken.sign(payload , JWT_SECRET , {
-            expiresIn : "1d"
+            const JWT_SECRET = process.env.JWT_SECRET;
+
+            
+            const token = jsonwebtoken.sign(payload, JWT_SECRET, {
+                expiresIn: "1d",
+            });
+
+            user = user.toObject();
+            user.password = undefined;
+
+            
+            // res.cookie("token", token, {
+            //     httpOnly: true,
+            //     secure: process.env.NODE_ENV === "production",  // ✅ Only secure in production
+            //     sameSite: "Lax",// ✅ Allow cross-origin requests in most cases
+            //     maxAge: 24 * 60 * 60 * 1000,
+            // });
+
+            return res.status(200).json({
+                success: true,
+                user,
+                token,
+                message: "User logged in successfully.",
+            });
+        } else {
+            return res.status(401).json({
+                success: false,
+                message: "Incorrect password...",
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Login failed, please try again later...",
         });
-    
+    }
+};
 
-    user = user.toObject();
-    user.token = token;
-    user.password = undefined;
 
-    const options = {
-        expires : new Date(Date.now() + 24 * 60 * 60 * 1000),
-        httpOnly : true
-    };
-
-    res.cookie("token", token, options);
-    res.setHeader("Authorization", `Bearer ${token}`);
+export const logout = (req, res) => {
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "Strict",
+    });
 
     return res.status(200).json({
         success: true,
-        user,
-        message: "User logged in successfully.",
+        message: "User logged out successfully.",
     });
-}
-    else{
-        return res.status(401).json({
-            success : false,
-            message : "Incorrect password..."
-        });
-    }
-}
-catch(error)
-{
-    console.log(error);
-    return res.status(500).json({
-        success : false,
-        message : "Login failed, please try again later..."
-    })
-}
-}
+};

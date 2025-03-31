@@ -1,6 +1,5 @@
 import { interviewSet } from "../Models/interviewModel.js";
 import { promptFinder } from "../AI/ai.controller.js";
-import { totalAttempted } from "../Controllers/userAnalyticsController.js";
 import { executeCode } from "../Compiler/codeExecutor.js";
 import { aiEvaluationNew } from "../Models/aiEvaluatedAnswers.js";
 import { userAnswer } from "../Models/userAttemptAnswers.js";
@@ -107,14 +106,7 @@ const newUserAns = await userAnswer.create({
         let totalScore = correctCodingCount + correctMcqCount;
 
     await Promise.all([
-            // totalAttempted(userId, {
-            //     mcqCount,
-            //     theoryCount,
-            //     codingCount,
-            //     correctMcqCount,
-            //     correctCodingCount,
-            //     totalScore,
-            // }),
+            
 
             
 

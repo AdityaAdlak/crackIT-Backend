@@ -1,68 +1,127 @@
-
-
 import { UserAnalytics } from "../Models/AnalyticsModel.js";
+
 
 export const createUserAnalytics = async (userId) => {
     try {
-        const analytics =await UserAnalytics.create({
-            userId : userId
-        })
-
-        console.log("Analytics created for user , ",userId);
+        const analytics = await UserAnalytics.create({
+            userId: userId
+        });
+        console.log("Analytics created for user,", userId);
     } catch (error) {
-        console.log("Error in creating Analytics , ",error);
+        console.log("Error in creating Analytics,", error);
     }
-}
+};
 
+export const updateMCQAnalytics = async (req, res) => {
+    const { userId } = req.params;
+    const { mcqAnswers } = req.body; 
 
-export const totalAttempted = async (userId,{correctMcqCount , correctCodingCount, totalScore})=>{
     try {
-
-        console.log("In totalAttempted coding , mcq and totalCount = ",correctCodingCount , correctMcqCount)
-        
-        if(correctCodingCount == null|| correctMcqCount== null || totalScore < 0)
-        {
-            console.log("Enter All Entries");
-            return ;
+        if (!Array.isArray(mcqAnswers) || mcqAnswers.length === 0) {
+            return res.status(400).json(
+                { message: "Invalid MCQ data" }
+            );
         }
 
-        const updatedUser = await UserAnalytics.findOneAndUpdate(  { userId }, 
-            {
-                // used to increament numeric values
-                
+        let userAnalytics = await UserAnalytics.findOne({ userId });
 
-                $inc: {
-                    correctMCQ : correctMcqCount,
-                    correctCoding : correctCodingCount,
-                },
-                
+        if (!userAnalytics) {
+            // dynamic creation of userAnalytics
+            userAnalytics = new UserAnalytics({ userId, correctMCQ: 0, mcqResponses: [] });
+        }
 
-            },
-            {
-                new: true,
-                upsert: true // Create if existing not found
+        let newCorrectCount = 0;
+
+     
+        mcqAnswers.forEach(({ questionId, correctAnswer, userAnswer }) => {
+            const existingResponse = userAnalytics.mcqResponses.find(
+                (response) => response.questionId === questionId && response.isCorrect
+            );
+
+            if (!existingResponse) {  
+                if (userAnswer === correctAnswer) {
+                    newCorrectCount++;
+                }
+
+                
+                userAnalytics.mcqResponses.push({
+                    questionId,
+                    correctAnswer,
+                    userAnswer,
+                    isCorrect: userAnswer === correctAnswer,
+                    timestamp: new Date()
+                });
             }
+        });
+
+        if (newCorrectCount > 0) {
+            userAnalytics.correctMCQ += newCorrectCount;
+            userAnalytics.improvementOverTime.push({ date: new Date(), score: userAnalytics.correctMCQ });
+        }
+
+        await userAnalytics.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "MCQ section updated",
+            data: userAnalytics
+        });
+    } catch (error) {
+        console.error("Error updating MCQ Analytics:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
+
+export const updateCodingAnalytics = async (req, res) => {
+    const { userId } = req.params;
+    const { correctSolvedQuestionsIds } = req.body;
+
+    try {
+        console.log("Updating Coding Analytics for user:", userId);
+
+        if (!Array.isArray(correctSolvedQuestionsIds)) {
+            return res.status(400).json({
+                message: "Invalid data format",
+                success: false
+            });
+        }
+
+        let userAnalytics = await UserAnalytics.findOne({ userId });
+
+        if (!userAnalytics) {
+            userAnalytics = new UserAnalytics({ userId });
+        }
+// initialize as array
+        if (!userAnalytics.solvedCodingQuestions) {
+            userAnalytics.solvedCodingQuestions = [];
+        }
+
+//   questions that were not previously stored
+        const newCorrectQuestions = correctSolvedQuestionsIds.filter(questionId => 
+            !userAnalytics.solvedCodingQuestions.includes(questionId)
         );
 
-        if (updatedUser) {
-            await UserAnalytics.findOneAndUpdate(
-                { userId },
-                {
-                    // used to add values in array
-                    $push: {
-                        improvementOverTime: {
-                            date: new Date(),
-                            score: totalScore
-                        }
-                    }
-                },
-                { new: true }
-            );
-           
-   } } catch (error) {
-        console.log("Error in creating Total Attempted and Correct Entry...",error)
+        if (newCorrectQuestions.length > 0) {
+            userAnalytics.solvedCodingQuestions.push(...newCorrectQuestions);
+            userAnalytics.correctCoding += newCorrectQuestions.length;
+            userAnalytics.improvementOverTime.push({
+                date: new Date(),
+                correctSolved: userAnalytics.correctCoding
+            });
+        }
+
+        await userAnalytics.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Coding section updated",
+            data: userAnalytics
+        });
+
+    } catch (error) {
+        console.log("Error updating Coding Analytics:", error);
+        res.status(500).json({ message: "Internal server error" });
     }
-}
-
-
-
+};

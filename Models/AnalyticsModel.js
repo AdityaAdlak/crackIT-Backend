@@ -9,17 +9,17 @@ const analyticsSchema = new mongoose.Schema({
 
     totalMCQ: {
         type: Number,
-        default: 375
+        default: 750
     },
 
     totalTheory: {
         type: Number,
-        default: 225
+        default: 450
     },
 
     totalCoding: {
         type: Number,
-        default: 150
+        default: 300
     },
 
     correctMCQ: {
@@ -27,10 +27,7 @@ const analyticsSchema = new mongoose.Schema({
         default: 0
     },
 
-    correctCoding: {
-        type: Number,
-        default: 0
-    },
+    
 
     improvementOverTime: [
         {
@@ -44,6 +41,21 @@ const analyticsSchema = new mongoose.Schema({
             }
         }
     ],
+
+    correctCoding: { type: Number, default: 0 },
+
+    solvedCodingQuestions: [{ type: String }],
+
+
+    mcqResponses: [
+        {
+            questionId: String, 
+            correctAnswer: String,
+            userAnswer: String,
+            isCorrect: Boolean,
+            timestamp: { type: Date, default: Date.now }
+        }
+    ]
 });
 
 const UserAnalytics = mongoose.model("UserAnalytics", analyticsSchema);

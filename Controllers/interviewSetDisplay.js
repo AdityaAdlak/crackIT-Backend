@@ -37,11 +37,15 @@ export const interview_set_levelwise = async (req, res) => {
 
             mcqQuestions : e.questions.filter(q=>q.typeOfQuestion === "mcq")
             .map(q=>({
+                questionId : q._id.toString(),
                 question : q.questionTitle,
                 options : q.options || [],
                 correctOption : q.correctAnswer,
-                questionType : q.typeOfQuestion || "unknown"
+                questionType : q.typeOfQuestion || "unknown",
             })),
+
+            
+
 
            
 
@@ -76,7 +80,7 @@ testCases: Array.isArray(q.testCase)
 }))
 
 
-        console.log(formattedData)
+        
           
         return res.status(200).json({
             success: true,
