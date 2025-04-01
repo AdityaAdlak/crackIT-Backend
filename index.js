@@ -13,7 +13,7 @@ const app = express();
 
 app.use(
     cors({
-        origin:[ "http://localhost:5173","https://crack-it-frontend.vercel.app"] ,
+        origin:[ "http://localhost:5173","https://crackit-front.vercel.app/"] ,
         credentials: true, 
     })
 );
