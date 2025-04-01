@@ -13,8 +13,9 @@ const app = express();
 
 app.use(
     cors({
-        origin:[ "http://localhost:5173","https://crackit-front.vercel.app/"] ,
-        credentials: true, 
+        origin: ["http://localhost:5173", "https://crackit-front.vercel.app"], 
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
+        allowedHeaders: ["Content-Type", "Authorization"], 
     })
 );
 app.use(express.json());
