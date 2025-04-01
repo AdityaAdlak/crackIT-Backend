@@ -12,6 +12,7 @@ import {AskAnything} from "../Controllers/AiAskController.js"
 import {getLatestUserAnswer} from "../Controllers/latestUserId.js"
 import {updateMCQAnalytics} from "../Controllers/userAnalyticsController.js"
 import {updateCodingAnalytics} from "../Controllers/userAnalyticsController.js"
+import {createEntry} from "../Controllers/interviewSetsEntry.js"
 
 
 router.post("/updateMcqAnalytics/:userId",(req,res)=>{
@@ -45,7 +46,7 @@ router.post("/submit",(req,res)=>{
     userEvaluation(req,res);
 })
 
-router.get("/interviewSetShow/:setDifficulty",(req,res)=>{
+router.get("/interviewSetShow/:setDifficulty",auth,(req,res)=>{
     interview_set_levelwise(req,res)
 })
 

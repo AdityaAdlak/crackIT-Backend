@@ -37,8 +37,12 @@ const analyticsSchema = new mongoose.Schema({
             },
 
             score: {
-                type: Number
-            }
+                type: Number,
+                default : 0
+            },
+
+
+            codingScore: { type: Number, default: 0 }
         }
     ],
 

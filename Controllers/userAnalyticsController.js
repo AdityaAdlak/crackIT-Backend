@@ -56,7 +56,7 @@ export const updateMCQAnalytics = async (req, res) => {
 
         if (newCorrectCount > 0) {
             userAnalytics.correctMCQ += newCorrectCount;
-            userAnalytics.improvementOverTime.push({ date: new Date(), score: userAnalytics.correctMCQ });
+            userAnalytics.improvementOverTime.push({ date: new Date(), score: userAnalytics.correctMCQ, codingScore : userAnalytics.correctCoding });
         }
 
         await userAnalytics.save();
@@ -108,9 +108,12 @@ export const updateCodingAnalytics = async (req, res) => {
             userAnalytics.correctCoding += newCorrectQuestions.length;
             userAnalytics.improvementOverTime.push({
                 date: new Date(),
-                correctSolved: userAnalytics.correctCoding
+                codingScore: userAnalytics.correctCoding,
+                score : userAnalytics.correctMCQ
             });
         }
+
+        
 
         await userAnalytics.save();
 

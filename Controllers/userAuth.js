@@ -39,13 +39,7 @@ export const signup = async(req,res)=>{
            
         })
 
-        // const userEntry = await User.create({
-        //     fullName , 
-        //     email,
-        //     password : hashedPass,
-            
-        // })
-
+        
         createUserAnalytics(responseDetails._id);
 
         return res.status(201).json({
@@ -85,7 +79,6 @@ export const login = async (req, res) => {
             });
         }
 
-        console.log("JWT Secret:", process.env.JWT_SECRET);
 
         if (await bcrypt.compare(password, user.password)) {
             const payload = {
