@@ -1,22 +1,22 @@
 
-// we can implement retry mechanism using Exponential backoff
+
 
 import dotenv from "dotenv";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 dotenv.config();
 
-// Create instance of generative AI
+
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-// Process 10000 lines of code
+
 
 export const generateContent = async (fullprompt) => {
   try {
     if (!fullprompt || typeof fullprompt !== "string") {
       console.log("Enter prompt first");
-      return null; // Return null to indicate an error, consistent with other error handling
+      return null; 
     }
 
     return await generateContentWithRetry(model, {
@@ -52,9 +52,9 @@ async function generateContentWithRetry(model, request, maxRetries = 3, delay = 
                 console.error(`Retry ${retries + 1} failed: ${error.message}`);
                 retries++;
                 await new Promise((resolve) => setTimeout(resolve, delay));
-                delay *= 2; // Exponential backoff
+                delay *= 2; 
             } else {
-                throw error; // Re-throw non-503 errors
+                throw error; 
             }
         }
     }

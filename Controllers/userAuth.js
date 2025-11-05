@@ -1,8 +1,6 @@
 import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
-import {Login} from "../Models/loginModel.js";
 import {SignUp} from "../Models/signUpModel.js";
-import {User} from "../Models/userModel.js";
 import dotenv from "dotenv"
 import {createUserAnalytics} from "../Controllers/userAnalyticsController.js"
 
@@ -97,12 +95,6 @@ export const login = async (req, res) => {
             user.password = undefined;
 
             
-            // res.cookie("token", token, {
-            //     httpOnly: true,
-            //     secure: process.env.NODE_ENV === "production",  // ✅ Only secure in production
-            //     sameSite: "Lax",// ✅ Allow cross-origin requests in most cases
-            //     maxAge: 24 * 60 * 60 * 1000,
-            // });
 
             return res.status(200).json({
                 success: true,

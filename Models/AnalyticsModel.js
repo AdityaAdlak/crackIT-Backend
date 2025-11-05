@@ -9,17 +9,17 @@ const analyticsSchema = new mongoose.Schema({
 
     totalMCQ: {
         type: Number,
-        default: 750
+        default: 375
     },
 
     totalTheory: {
         type: Number,
-        default: 450
+        default: 225
     },
 
     totalCoding: {
         type: Number,
-        default: 300
+        default: 150
     },
 
     correctMCQ: {

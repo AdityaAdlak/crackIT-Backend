@@ -10,14 +10,13 @@ export const promptFinder = async (userAnswerId) => {
     try {
         console.log(`Starting AI evaluation for userAnswerId: ${userAnswerId}`);
 
-        // Fetch user's answer from DB
+        
         const userResponse = await userAnswer.findById(userAnswerId);
         if (!userResponse) {
             console.error("Error: User answer not found.");
             throw new Error("User answer not found.");
         }
 
-        // Prepare AI prompt
         const prompt = `
         You are an AI interview evaluator. Given a set of theoretical and coding questions answered by a candidate, analyze each answer carefully.
         - For theoretical questions, evaluate correctness, clarity, depth, and use of relevant examples.
@@ -47,7 +46,7 @@ export const promptFinder = async (userAnswerId) => {
 
         const fullPrompt = prompt + JSON.stringify({ interviewSet });
 
-        // console.log("Generated AI Prompt:\n", fullPrompt);
+       
 
 
         console.log("Generated AI Prompt:\n", fullPrompt);
@@ -64,7 +63,7 @@ export const promptFinder = async (userAnswerId) => {
 
         console.log("Raw AI Response:\n", response);
 
-        // Clean and parse AI response
+        
         let cleanedResponse = response.trim().replace(/^```json|```$/g, '');
         let parsedResponse;
         try {
@@ -74,7 +73,7 @@ export const promptFinder = async (userAnswerId) => {
             throw new Error("AI response is not in valid JSON format...");
         }
 
-        // Ensure AI response contains feedback
+        
         if (!parsedResponse.feedback || !Array.isArray(parsedResponse.feedback)) {
             console.error("Error: AI response does not contain valid feedback array.");
             throw new Error("AI feedback format is incorrect.");
@@ -98,7 +97,7 @@ export const promptFinder = async (userAnswerId) => {
 
         console.log("Final AI Feedback Output:", finalResponse);
 
-        // Save AI feedback to database
+       
         const newEvaluation = await aiEvaluation.create({
             userAnswerId: userAnswerId,
             aiFeedback: finalResponse,
